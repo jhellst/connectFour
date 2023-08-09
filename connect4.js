@@ -30,7 +30,16 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
  */
 
 function makeBoard() {
-  // TODO: set "board" to empty HEIGHT x WIDTH matrix array
+  board = [];
+  for (let rowIndex = 0; rowIndex < HEIGHT; rowIndex++) {
+
+    const row = [];
+    for (let columnIndex = 0; columnIndex < WIDTH; columnIndex++) {
+      row.push(null);
+    }
+
+    board.push(row);
+  }
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -38,36 +47,41 @@ function makeBoard() {
 function makeHtmlBoard() { // consider renaming to something like "makeResponsiveTopRow()"
   const htmlBoard = document.getElementById('board');
 
-  // TODO: add comment for this code
+  // Creating a top element in the DOM and setting ID attribute
   const top = document.createElement("tr");
   top.setAttribute("id", "column-top");
 
-  // TODO: add comment for this code
+  // TODO: Create the header element based on the number of columns, set ID
+  // attribute, and add an event listener.
+  // Appends the full responsive row to the HTMLboard.
   for (let headColumnIndex = 0; headColumnIndex < WIDTH; headColumnIndex++) {
     const headCell = document.createElement("td");
-    headCell.setAttribute("id", `top-${columnIndex}`); // adds id for top-columnIndex
+    headCell.setAttribute("id", `top-${headColumnIndex}`); // adds id for top-columnIndex
     headCell.addEventListener("click", handleClick); // adds event listener for click on tr
     top.append(headCell);
   }
+  debugger;
   htmlBoard.append(top);
 
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
-  for (let rowIndex = 0; rows < HEIGHT; rowIndex++) {
+  for (let rowIndex = 0; rowIndex < HEIGHT; rowIndex++) {
     // TODO: Create a table row element and assign to a "row" variable
+    const row = document.createElement("tr");
 
     for (let columnIndex = 0; columnIndex < WIDTH; columnIndex++) {
       // TODO: Create a table cell element and assign to a "cell" variable
-
+      const cell = document.createElement("td");
       // TODO: add an id, c-y-x, to the above table cell element
+      cell.setAttribute("id", `c-${rowIndex}-${columnIndex}`)
       // you'll use this later, so make sure you use c-y-x
 
       // TODO: append the table cell to the table row
-
+      row.append(cell);
     }
     // TODO: append the row to the html board
-
+    htmlBoard.append(row);
   }
 }
 
