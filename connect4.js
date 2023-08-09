@@ -30,21 +30,23 @@ let board = []; // array of rows, each row is array of cells  (board[y][x])
  */
 
 function makeBoard() {
-  board = [];
-  for (let rowIndex = 0; rowIndex < HEIGHT; rowIndex++) {
+  board = []; // reset board for tracking status of game
 
-    const row = [];
+  // Array.from() another option here
+  for (let rowIndex = 0; rowIndex < HEIGHT; rowIndex++) {
+    const row = []; // create new row to append to board
+
     for (let columnIndex = 0; columnIndex < WIDTH; columnIndex++) {
-      row.push(null);
+      row.push(null); // push cell value (null) into row
     }
 
-    board.push(row);
+    board.push(row); // push complete row onto board
   }
 }
 
-/** makeHtmlBoard: make HTML table and row of column tops. */
+/** makeHtmlBoard: make HTML table and responsive row of column tops. */
 
-function makeHtmlBoard() { // consider renaming to something like "makeResponsiveTopRow()"
+function makeHtmlBoard() {
   const htmlBoard = document.getElementById('board');
 
   // Creating a top element in the DOM and setting ID attribute
@@ -56,31 +58,40 @@ function makeHtmlBoard() { // consider renaming to something like "makeResponsiv
   // Appends the full responsive row to the HTMLboard.
   for (let headColumnIndex = 0; headColumnIndex < WIDTH; headColumnIndex++) {
     const headCell = document.createElement("td");
-    headCell.setAttribute("id", `top-${headColumnIndex}`); // adds id for top-columnIndex
-    headCell.addEventListener("click", handleClick); // adds event listener for click on tr
+
+    // adds id for top-columnIndex
+    headCell.setAttribute("id", `top-${headColumnIndex}`);
+
+    // adds event listener for click on tr
+    headCell.addEventListener("click", handleClick);
+
+    // appends cell to topRow
     top.append(headCell);
   }
-  debugger;
+
+  // appends full responsive top row to htmlBoard
   htmlBoard.append(top);
 
   // dynamically creates the main part of html board
   // uses HEIGHT to create table rows
   // uses WIDTH to create table cells for each row
   for (let rowIndex = 0; rowIndex < HEIGHT; rowIndex++) {
-    // TODO: Create a table row element and assign to a "row" variable
+
+    // Create a table row element and assign to a "row" variable
     const row = document.createElement("tr");
 
     for (let columnIndex = 0; columnIndex < WIDTH; columnIndex++) {
-      // TODO: Create a table cell element and assign to a "cell" variable
-      const cell = document.createElement("td");
-      // TODO: add an id, c-y-x, to the above table cell element
-      cell.setAttribute("id", `c-${rowIndex}-${columnIndex}`)
-      // you'll use this later, so make sure you use c-y-x
 
-      // TODO: append the table cell to the table row
+      // Create a table cell element and assign to a "cell" variable
+      const cell = document.createElement("td");
+
+      // Add an id, c-y-x, to the above table cell element
+      cell.setAttribute("id", `c-${rowIndex}-${columnIndex}`)
+
+      // Append the table cell to the table row
       row.append(cell);
     }
-    // TODO: append the row to the html board
+    // Append the row to the html board
     htmlBoard.append(row);
   }
 }
@@ -92,10 +103,19 @@ function findSpotForCol(x) { // given a column, find the specific row index the 
   return 5;
 }
 
-/** placeInTable: update DOM to place piece into HTML table of board */
+/** placeInTable: update DOM to place piece into HTML table of board , with class 'piece' and class p1/p2 */
 
-function placeInTable(y, x) {
+function placeInTable(rowIndex, columnIndex) {
   // TODO: make a div and insert into correct table cell
+  const piece = document.createElement("div");
+  piece.setAttribute("class", `piece ${currPlayer}`);
+
+  // Place piece into board
+  board[rowIndex][columnIndex] = currPlayer;
+
+  // Place piece into HTMLgameBoard
+  let currentHTMLCell = document.querySelector(`c-${rowIndex}-${columnIndex}`);
+  currentHTMLCell.append(piece);
 }
 
 /** endGame: announce game end */
