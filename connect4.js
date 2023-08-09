@@ -98,9 +98,16 @@ function makeHtmlBoard() {
 
 /** findSpotForCol: given column x, return bottom empty y (null if filled) */
 
-function findSpotForCol(x) { // given a column, find the specific row index the piece will be played in
+function findSpotForCol(columnIndex) { // given a column, find the specific row index the piece will be played in
   // TODO: write the real version of this, rather than always returning 5
-  return 5;
+  let rowIndex = 0;
+  while (rowIndex < HEIGHT) {
+    if (board[rowIndex][columnIndex] === null) {
+      return columnIndex;
+    }
+    rowIndex++;
+  }
+  return; // This occurs when the board column is filled
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board , with class 'piece' and class p1/p2 */
@@ -108,7 +115,7 @@ function findSpotForCol(x) { // given a column, find the specific row index the 
 function placeInTable(rowIndex, columnIndex) {
   // TODO: make a div and insert into correct table cell
   const piece = document.createElement("div");
-  piece.setAttribute("class", `piece ${currPlayer}`);
+  piece.setAttribute("class", `piece p${currPlayer}`);
 
   // Place piece into board
   board[rowIndex][columnIndex] = currPlayer;
