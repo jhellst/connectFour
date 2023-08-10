@@ -182,11 +182,18 @@ function checkForWin() {
    * returns true if all are legal coordinates for a cell & all cells match
    * currPlayer
    */
-  function _win(cells) {
-
+  function _win(coordinates) { // [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
     // TODO: Check four cells to see if they're all legal & all color of current
     // player
-
+    const currPlayer = board[coordinates[0][0]][coordinates[0][1]];
+    console.log("currPlayer", currPlayer);
+    console.log("coordinates[0][0]", coordinates[0][0])
+    for (const coordinate of coordinates.slice(1)) {
+      if (currPlayer !== board[coordinate[0], coordinate[1]]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   // using HEIGHT and WIDTH, generate "check list" of coordinates
