@@ -100,14 +100,14 @@ function makeHtmlBoard() {
 
 function findSpotForCol(columnIndex) { // given a column, find the specific row index the piece will be played in
   // TODO: write the real version of this, rather than always returning 5
-  let rowIndex = 0;
-  while (rowIndex < HEIGHT) {
+  let rowIndex = HEIGHT - 1;
+  while (rowIndex >= 0) {
     if (board[rowIndex][columnIndex] === null) {
-      return columnIndex;
+      return rowIndex;
     }
-    rowIndex++;
+    rowIndex--;
   }
-  return; // This occurs when the board column is filled
+  return null; // This occurs when the board column is filled
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board , with class 'piece' and class p1/p2 */
@@ -121,7 +121,7 @@ function placeInTable(rowIndex, columnIndex) {
   board[rowIndex][columnIndex] = currPlayer;
 
   // Place piece into HTMLgameBoard
-  let currentHTMLCell = document.querySelector(`c-${rowIndex}-${columnIndex}`);
+  let currentHTMLCell = document.querySelector(`#c-${rowIndex}-${columnIndex}`);
   currentHTMLCell.append(piece);
 }
 
@@ -134,20 +134,20 @@ function endGame(msg) {
 /** handleClick: handle click of column top to play piece */
 
 function handleClick(evt) {
-  // make sure to
 
-  // get x from ID of clicked cell
-  let x = +evt.target.id;
+  // get columnIndex from ID of clicked cell
+  let columnIndex = evt.target.id;
+  columnIndex = Number(columnIndex.split('-')[1]);
 
   // get next spot in column (if none, ignore click)
-  let y = findSpotForCol(x);
-  if (y === null) {
+  let rowIndex = findSpotForCol(columnIndex);
+  if (rowIndex === null) {
     return;
   }
 
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
-  placeInTable(y, x);
+  placeInTable(rowIndex, columnIndex);
 
   // check for win
   if (checkForWin()) {
@@ -159,6 +159,18 @@ function handleClick(evt) {
 
   // switch players
   // TODO: switch currPlayer 1 <-> 2
+  switchPlayers();
+}
+
+/** Switches player turn from P1 to P2, and vice versa */
+function switchPlayers() {
+  console.log("P Before", currPlayer);
+  if (currPlayer === 1) {
+    currPlayer = 2;
+  } else {
+    currPlayer = 1;
+  }
+  console.log("P After", currPlayer);
 }
 
 /** checkForWin: check board cell-by-cell for "does a win start here?" */
